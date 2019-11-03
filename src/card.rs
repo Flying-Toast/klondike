@@ -5,10 +5,26 @@ pub enum Suit {
     Spades
 }
 
+impl Suit {
+    pub fn all() -> [Self; 4] {
+        [Self::Hearts, Self::Diamonds, Self::Clubs, Self::Spades]
+    }
+}
+
 pub enum Value {
     Ace, Two, Three, Four, Five,
     Six, Seven, Eight, Nine, Ten,
     Jack, Queen, King
+}
+
+impl Value {
+    pub fn all() -> [Self; 13] {
+        [
+            Self::Ace, Self::Two, Self::Three, Self::Four, Self::Five,
+            Self::Six, Self::Seven, Self::Eight, Self::Nine, Self::Ten,
+            Self::Jack, Self::Queen, Self::King
+        ]
+    }
 }
 
 pub struct Card {
