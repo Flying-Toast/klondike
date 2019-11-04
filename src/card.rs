@@ -92,9 +92,12 @@ impl Card {
 
     ///The row of the rendered card that displays its identity (value and suit)
     pub fn ident_row(&self) -> String {
-        let ident = format!("{}{}", self.value, self.suit);
-
-        format!("│{:7}│", ident)
+        if self.face_up {
+            let ident = format!("{}{}", self.value, self.suit);
+            return format!("│{:7}│", ident);
+        } else {
+            return String::from("│******│");
+        }
     }
 
     ///The top row of a rendered card
@@ -102,8 +105,12 @@ impl Card {
         String::from("┌──────┐")
     }
 
-    pub fn empty_row() -> String {
-        String::from("│      │")
+    pub fn empty_row(&self) -> String {
+        if self.face_up {
+            return String::from("│      │");
+        } else {
+            return String::from("│******│");
+        }
     }
 
     pub fn bottom_row() -> String {
