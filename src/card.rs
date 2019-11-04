@@ -17,10 +17,10 @@ impl Suit {
 impl Display for Suit {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let string = match self {
-            Suit::Clubs => "C",
-            Suit::Diamonds => "D",
-            Suit::Hearts => "H",
-            Suit::Spades => "S"
+            Suit::Clubs => "♣️",
+            Suit::Diamonds => "♦️",
+            Suit::Hearts => "♥️",
+            Suit::Spades => "♠️"
         };
 
         write!(f, "{}", string)
@@ -88,6 +88,26 @@ impl Card {
 
     pub fn value(&self) -> &Value {
         &self.value
+    }
+
+    ///The row of the rendered card that displays its identity (value and suit)
+    pub fn ident_row(&self) -> String {
+        let ident = format!("{}{}", self.value, self.suit);
+
+        format!("│{:7}│", ident)
+    }
+
+    ///The top row of a rendered card
+    pub fn top_row() -> String {
+        String::from("┌──────┐")
+    }
+
+    pub fn empty_row() -> String {
+        String::from("│      │")
+    }
+
+    pub fn bottom_row() -> String {
+        String::from("└──────┘")
     }
 }
 
