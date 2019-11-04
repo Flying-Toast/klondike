@@ -8,9 +8,22 @@ pub enum Suit {
     Spades
 }
 
+#[derive(PartialEq)]
+pub enum SuitColor {
+    Red,
+    Black
+}
+
 impl Suit {
     pub fn all() -> [Self; 4] {
         [Self::Hearts, Self::Diamonds, Self::Clubs, Self::Spades]
+    }
+
+    pub fn color(&self) -> SuitColor {
+        match self {
+            Self::Hearts | Self::Diamonds => SuitColor::Red,
+            _ => SuitColor::Black
+        }
     }
 }
 
