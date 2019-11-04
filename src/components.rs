@@ -103,3 +103,40 @@ impl Pile for Foundation {
         self.cards.push(card);
     }
 }
+
+pub struct Tableau {
+    cards: Vec<Card>,
+}
+
+impl Tableau {
+    pub fn new(initial_cards: Vec<Card>) -> Self {
+        Self {
+            cards: initial_cards,
+        }
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.cards.len() == 0
+    }
+
+    pub fn top_card(&self) -> &Card {
+        &self.cards.get(self.cards.len() - 1).unwrap()
+    }
+}
+
+impl Pile for Tableau {
+    fn can_push(&self, card: &Card) -> bool {
+        if self.is_empty() {
+            return card.value() == &Value::King;
+        } else if !self.top_card().face_up || self.top_card().value() == &Value::Ace {
+            return false;
+        } else {
+            return self.top_card().suit().color() != card.suit().color() &&
+                &self.top_card().value().pred() == card.value();
+        }
+    }
+
+    fn push(&mut self, card: Card) {
+        self.cards.push(card);
+    }
+}
