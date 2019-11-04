@@ -1,3 +1,4 @@
+#[derive(Copy, Clone)]
 pub enum Suit {
     Hearts,
     Diamonds,
@@ -11,6 +12,7 @@ impl Suit {
     }
 }
 
+#[derive(Copy, Clone)]
 pub enum Value {
     Ace, Two, Three, Four, Five,
     Six, Seven, Eight, Nine, Ten,
@@ -48,5 +50,34 @@ impl Card {
 
     pub fn value(&self) -> &Value {
         &self.value
+    }
+}
+
+pub struct Deck {
+    pub cards: Vec<Card>,
+}
+
+impl Deck {
+    pub fn new() -> Self {
+        let mut cards = Vec::with_capacity(52);
+        for suit in &Suit::all() {
+            for value in &Value::all() {
+                cards.push(Card::new(*suit, *value));
+            }
+        }
+
+        Self {
+            cards
+        }
+    }
+
+    pub fn new_shuffled() -> Self {
+        use rand::seq::SliceRandom;
+
+        let mut rng = rand::thread_rng();
+        let mut deck = Self::new();
+        deck.cards.shuffle(&mut rng);
+
+        deck
     }
 }
