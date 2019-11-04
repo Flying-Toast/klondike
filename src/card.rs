@@ -1,6 +1,6 @@
 use std::fmt::{self, Display, Formatter};
 
-#[derive(Copy, Clone)]
+#[derive(PartialEq, Copy, Clone)]
 pub enum Suit {
     Hearts,
     Diamonds,
@@ -17,17 +17,17 @@ impl Suit {
 impl Display for Suit {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let string = match self {
-            Suit::Clubs => "♣️",
-            Suit::Diamonds => "♦️",
-            Suit::Hearts => "♥️",
-            Suit::Spades => "♠️"
+            Self::Clubs => "♣️",
+            Self::Diamonds => "♦️",
+            Self::Hearts => "♥️",
+            Self::Spades => "♠️"
         };
 
         write!(f, "{}", string)
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(PartialEq, Copy, Clone)]
 pub enum Value {
     Ace, Two, Three, Four, Five,
     Six, Seven, Eight, Nine, Ten,
@@ -41,6 +41,18 @@ impl Value {
             Self::Six, Self::Seven, Self::Eight, Self::Nine, Self::Ten,
             Self::Jack, Self::Queen, Self::King
         ]
+    }
+
+    pub fn pred(&self) -> Self {
+        if self == &Self::Ace {
+            panic!("Can't get predecessor of an Ace.");
+        }
+
+        let all = Self::all();
+        let index = all.iter()
+            .position(|i| i == self).unwrap() - 1;
+
+        all[index]
     }
 }
 

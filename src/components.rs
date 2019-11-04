@@ -3,6 +3,7 @@ use crate::card::*;
 pub trait Pile {
     fn cards(&self) -> &[Card];
     fn can_push(&self, card: &Card) -> bool;
+    //cards are pushed to the back of the `cards` vector, which is the top of the pile
     fn push(&mut self, card: Card);
 }
 
@@ -72,8 +73,46 @@ impl Pile for Waste {
         true
     }
 
-    fn push(&mut self, mut card: Card) {
-        card.face_up = true;
-        self.cards.insert(0, card);
+    fn push(&mut self, card: Card) {
+        self.cards.push(card);
+    }
+}
+
+pub struct Foundation {
+    suit: Suit,
+    cards: Vec<Card>,
+    top_value: Option<Value>,
+}
+
+impl Foundation {
+    pub fn new(suit: Suit) -> Self {
+        Self {
+            suit,
+            cards: vec![],
+            top_value: None,
+        }
+    }
+}
+
+impl Pile for Foundation {
+    fn cards(&self) -> &[Card] {
+        &self.cards
+    }
+
+    fn can_push(&self, card: &Card) -> bool {
+        if &self.suit != card.suit() {
+            return false
+        }
+
+        if let Some(v) = self.top_value {
+            return card.value() == &v.pred();
+        } else {
+            return card.value() == &Value::King;
+        }
+    }
+
+    fn push(&mut self, card: Card) {
+        self.top_value = Some(*card.value());
+        self.cards.push(card);
     }
 }
