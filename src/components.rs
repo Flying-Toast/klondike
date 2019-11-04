@@ -1,7 +1,6 @@
 use crate::card::*;
 
 pub trait Pile {
-    fn cards(&self) -> &[Card];
     fn can_push(&self, card: &Card) -> bool;
     //cards are pushed to the back of the `cards` vector, which is the top of the pile
     fn push(&mut self, card: Card);
@@ -37,10 +36,6 @@ impl Stock {
 }
 
 impl Pile for Stock {
-    fn cards(&self) -> &[Card] {
-        &self.cards
-    }
-
     fn can_push(&self, _card: &Card) -> bool {
         //can't ever push onto the stock
         false
@@ -64,10 +59,6 @@ impl Waste {
 }
 
 impl Pile for Waste {
-    fn cards(&self) -> &[Card] {
-        &self.cards
-    }
-
     fn can_push(&self, _card: &Card) -> bool {
         //can always push onto waste
         true
@@ -95,10 +86,6 @@ impl Foundation {
 }
 
 impl Pile for Foundation {
-    fn cards(&self) -> &[Card] {
-        &self.cards
-    }
-
     fn can_push(&self, card: &Card) -> bool {
         if &self.suit != card.suit() {
             return false
@@ -114,25 +101,5 @@ impl Pile for Foundation {
     fn push(&mut self, card: Card) {
         self.top_value = Some(*card.value());
         self.cards.push(card);
-    }
-}
-
-pub struct Tableu {
-    facedown_cards: Vec<Card>,
-    faceup_cards: Vec<Card>,
-    top_color: Option<SuitColor>,
-}
-
-impl Tableu {
-    pub fn new(mut facedown_cards: Vec<Card>) -> Self {
-        for i in facedown_cards.iter_mut() {
-            i.face_up = false;
-        }
-
-        Self {
-            facedown_cards,
-            faceup_cards: vec![],
-            top_color: None,
-        }
     }
 }
