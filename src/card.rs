@@ -1,6 +1,6 @@
 use std::fmt::{self, Display, Formatter};
 
-#[derive(PartialEq, Copy, Clone)]
+#[derive(PartialEq, Eq, Hash, Copy, Clone)]
 pub enum Suit {
     Hearts,
     Diamonds,

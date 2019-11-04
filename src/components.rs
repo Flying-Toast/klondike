@@ -11,6 +11,10 @@ pub struct Stock {
 }
 
 impl Stock {
+    pub fn draw(&mut self) -> Option<Card> {
+        self.cards.pop()
+    }
+
     pub fn new() -> Self {
         let mut cards = Vec::with_capacity(52);
         for suit in &Suit::all() {
