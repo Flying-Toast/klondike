@@ -116,3 +116,23 @@ impl Pile for Foundation {
         self.cards.push(card);
     }
 }
+
+pub struct Tableu {
+    facedown_cards: Vec<Card>,
+    faceup_cards: Vec<Card>,
+    top_color: Option<SuitColor>,
+}
+
+impl Tableu {
+    pub fn new(mut facedown_cards: Vec<Card>) -> Self {
+        for i in facedown_cards.iter_mut() {
+            i.face_up = false;
+        }
+
+        Self {
+            facedown_cards,
+            faceup_cards: vec![],
+            top_color: None,
+        }
+    }
+}
