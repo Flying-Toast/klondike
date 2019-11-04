@@ -105,9 +105,9 @@ impl Pile for Foundation {
         }
 
         if let Some(v) = self.top_value {
-            return card.value() == &v.pred();
+            return card.value().pred() == v;
         } else {
-            return card.value() == &Value::King;
+            return card.value() == &Value::Ace;
         }
     }
 
