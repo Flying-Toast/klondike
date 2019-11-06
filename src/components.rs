@@ -1,6 +1,7 @@
 use crate::card::*;
 
 pub trait Pile {
+    fn cards(&self) -> &[Card];
     fn can_push(&self, card: &Card) -> bool;
     //cards are pushed to the back of the `cards` vector, which is the top of the pile
     fn push(&mut self, card: Card);
@@ -40,6 +41,10 @@ impl Stock {
 }
 
 impl Pile for Stock {
+    fn cards(&self) -> &[Card] {
+        &self.cards
+    }
+
     fn can_push(&self, _card: &Card) -> bool {
         //can't ever push onto the stock
         false
@@ -63,6 +68,10 @@ impl Waste {
 }
 
 impl Pile for Waste {
+    fn cards(&self) -> &[Card] {
+        &self.cards
+    }
+
     fn can_push(&self, _card: &Card) -> bool {
         //can always push onto waste
         true
@@ -90,6 +99,10 @@ impl Foundation {
 }
 
 impl Pile for Foundation {
+    fn cards(&self) -> &[Card] {
+        &self.cards
+    }
+
     fn can_push(&self, card: &Card) -> bool {
         if &self.suit != card.suit() {
             return false
@@ -129,6 +142,10 @@ impl Tableau {
 }
 
 impl Pile for Tableau {
+    fn cards(&self) -> &[Card] {
+        &self.cards
+    }
+
     fn can_push(&self, card: &Card) -> bool {
         if self.is_empty() {
             return card.value() == &Value::King;
