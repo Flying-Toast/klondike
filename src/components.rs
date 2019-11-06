@@ -112,6 +112,10 @@ impl Foundation {
             top_value: None,
         }
     }
+
+    pub fn suit(&self) -> &Suit {
+        &self.suit
+    }
 }
 
 impl Pile for Foundation {
