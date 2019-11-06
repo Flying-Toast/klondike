@@ -74,7 +74,6 @@ impl Game {
             println!();
         }
         println!();
-        println!();
     }
 
     pub fn play(&mut self) {
