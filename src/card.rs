@@ -116,10 +116,18 @@ impl Card {
     }
 
     pub fn identifier(&self) -> String {
-        if self.face_up {
-            return format!("{}{}", self.value, self.suit);
-        } else {
-            return String::from("***");
-        }
+        format!("{}{}", self.value, self.suit)
+    }
+}
+
+impl Display for Card {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let id = if self.face_up {
+                     format!("{:<4}", self.identifier())
+                 } else {
+                     String::from("***")
+                 };
+
+        write!(f, "|{}|", id)
     }
 }
