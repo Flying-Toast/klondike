@@ -41,6 +41,27 @@ impl Game {
         }
     }
 
+    fn display_top_or_empty(pile: &impl Pile) -> String {
+        if pile.empty() {
+            String::from("|   |")
+        } else {
+            format!("{}", pile.top().unwrap())
+        }
+    }
+
+    pub fn render(&self) {
+        let stock_rend = Self::display_top_or_empty(&self.stock);
+        print!("{}    ", stock_rend);
+        for (suit, i) in self.foundations.iter() {
+            if i.empty() {
+                print!("| {} |", suit);
+            } else {
+                print!("{}", i.top().unwrap());
+            }
+        }
+        println!();
+    }
+
     //DELETE
     pub fn debug_print(&self) {
         fn print_cards(cards: &[Card]) {
@@ -77,7 +98,8 @@ impl Game {
         use std::io::stdin;
 
         loop {
-            self.debug_print();
+            self.render();
+            //self.debug_print();
             let mut input = String::new();
             stdin().read_line(&mut input).unwrap();
         }

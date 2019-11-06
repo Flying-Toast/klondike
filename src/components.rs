@@ -9,6 +9,14 @@ pub trait Pile {
     fn empty(&self) -> bool {
         self.cards().len() == 0
     }
+
+    fn top(&self) -> Option<&Card> {
+        if self.empty() {
+            return None;
+        } else {
+            return Some(&self.cards()[0]);
+        }
+    }
 }
 
 pub struct Stock {
