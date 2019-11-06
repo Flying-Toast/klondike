@@ -61,6 +61,20 @@ impl Game {
         }
         println!();
         println!();
+
+        let max_len = self.tableaus.iter().map(|i| i.cards().len()).max().unwrap();
+        for i in 1..max_len+1 {
+            for t in self.tableaus.iter() {
+                if t.cards().len() < i {
+                    print!("     ");
+                } else {
+                    print!("{}", t.cards()[i-1]);
+                }
+            }
+            println!();
+        }
+        println!();
+        println!();
     }
 
     pub fn play(&mut self) {
