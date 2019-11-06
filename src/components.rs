@@ -5,6 +5,10 @@ pub trait Pile {
     fn can_push(&self, card: &Card) -> bool;
     //puts the card on top of the pile
     fn push(&mut self, card: Card);
+
+    fn empty(&self) -> bool {
+        self.cards().len() == 0
+    }
 }
 
 pub struct Stock {
