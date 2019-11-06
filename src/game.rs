@@ -51,14 +51,15 @@ impl Game {
 
     pub fn render(&self) {
         let stock_rend = Self::display_top_or_empty(&self.stock);
-        print!("{}    ", stock_rend);
+        print!("{} {}      ", stock_rend, Self::display_top_or_empty(&self.waste));
         for (suit, i) in self.foundations.iter() {
             if i.empty() {
-                print!("| {} |", suit);
+                print!(" | {} |", suit);
             } else {
                 print!("{}", i.top().unwrap());
             }
         }
+        println!();
         println!();
     }
 
