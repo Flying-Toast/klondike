@@ -63,46 +63,14 @@ impl Game {
         println!();
     }
 
-    //DELETE
-    pub fn debug_print(&self) {
-        fn print_cards(cards: &[Card]) {
-            for i in cards.iter() {
-                print!("  ");
-                if i.face_up {
-                    print!("{}{}", i.value(), i.suit());
-                } else {
-                    print!("**");
-                }
-            }
-            println!();
-        }
-
-        print!("Stock:");
-        print_cards(&self.stock.cards());
-
-        print!("Waste:");
-        print_cards(&self.waste.cards());
-
-        for (suit, f) in self.foundations.iter() {
-            print!("{} Foundation:", suit);
-            print_cards(f.cards());
-        }
-
-        for (index, t) in self.tableaus.iter().enumerate() {
-            print!("Tableau {}:", index + 1);
-            print_cards(t.cards());
-        }
-    }
-
-    //DELETE
-    pub fn debug_loop(&self) {
+    pub fn play(&mut self) {
         use std::io::stdin;
 
         loop {
             self.render();
-            //self.debug_print();
-            let mut input = String::new();
-            stdin().read_line(&mut input).unwrap();
+
+            let mut line = String::new();
+            stdin().read_line(&mut line).unwrap();
         }
     }
 }
