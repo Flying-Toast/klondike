@@ -27,7 +27,7 @@ impl Game {
                 if i == num_cards - 1 {
                     card.face_up = true;
                 }
-                cards.push(card);
+                cards.insert(0, card);
             }
             num_cards += 1;
             tableaus.push(Tableau::new(cards));
@@ -44,7 +44,7 @@ impl Game {
     //DELETE
     pub fn debug_print(&self) {
         fn print_cards(cards: &[Card]) {
-            for i in cards.iter().rev() {
+            for i in cards.iter() {
                 print!("  ");
                 if i.face_up {
                     print!("{}{}", i.value(), i.suit());

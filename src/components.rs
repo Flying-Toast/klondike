@@ -3,7 +3,7 @@ use crate::card::*;
 pub trait Pile {
     fn cards(&self) -> &[Card];
     fn can_push(&self, card: &Card) -> bool;
-    //cards are pushed to the back of the `cards` vector, which is the top of the pile
+    //puts the card on top of the pile
     fn push(&mut self, card: Card);
 }
 
@@ -13,14 +13,18 @@ pub struct Stock {
 
 impl Stock {
     pub fn draw(&mut self) -> Option<Card> {
-        self.cards.pop()
+        if self.cards.len() == 0 {
+            return None;
+        } else {
+            return Some(self.cards.remove(0));
+        }
     }
 
     pub fn new() -> Self {
         let mut cards = Vec::with_capacity(52);
         for suit in &Suit::all() {
             for value in &Value::all() {
-                cards.push(Card::new(*suit, *value));
+                cards.insert(0, Card::new(*suit, *value));
             }
         }
 
@@ -78,7 +82,7 @@ impl Pile for Waste {
     }
 
     fn push(&mut self, card: Card) {
-        self.cards.push(card);
+        self.cards.insert(0, card);
     }
 }
 
@@ -117,7 +121,7 @@ impl Pile for Foundation {
 
     fn push(&mut self, card: Card) {
         self.top_value = Some(*card.value());
-        self.cards.push(card);
+        self.cards.insert(0, card);
     }
 }
 
@@ -158,6 +162,6 @@ impl Pile for Tableau {
     }
 
     fn push(&mut self, card: Card) {
-        self.cards.push(card);
+        self.cards.insert(0, card);
     }
 }

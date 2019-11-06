@@ -114,4 +114,12 @@ impl Card {
     pub fn value(&self) -> &Value {
         &self.value
     }
+
+    pub fn identifier(&self) -> String {
+        if self.face_up {
+            return format!("{}{}", self.value, self.suit);
+        } else {
+            return String::from("***");
+        }
+    }
 }
