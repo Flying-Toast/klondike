@@ -5,6 +5,7 @@ pub trait Pile {
     fn can_push(&self, card: &Card) -> bool;
     //puts the card on top of the pile
     fn push(&mut self, card: Card);
+    fn draw(&mut self) -> Option<Card>;
 
     fn empty(&self) -> bool {
         self.cards().len() == 0
@@ -17,6 +18,18 @@ pub trait Pile {
             return Some(&self.cards()[0]);
         }
     }
+
+    fn draw_n(&mut self, n: i32) -> Option<Vec<Card>> {
+        if n > self.cards().len() as i32 {
+            return None;
+        } else {
+            let mut v = Vec::new();
+            for _ in 0..n {
+                v.push(self.draw().unwrap());
+            }
+            return Some(v);
+        }
+    }
 }
 
 pub struct Stock {
@@ -24,14 +37,6 @@ pub struct Stock {
 }
 
 impl Stock {
-    pub fn draw(&mut self) -> Option<Card> {
-        if self.cards.len() == 0 {
-            return None;
-        } else {
-            return Some(self.cards.remove(0));
-        }
-    }
-
     pub fn new() -> Self {
         let mut cards = Vec::with_capacity(52);
         for suit in &Suit::all() {
@@ -69,6 +74,14 @@ impl Pile for Stock {
     fn push(&mut self, _card: Card) {
         panic!("Can't push onto stock.");
     }
+
+    fn draw(&mut self) -> Option<Card> {
+        if self.cards.len() == 0 {
+            return None;
+        } else {
+            return Some(self.cards.remove(0));
+        }
+    }
 }
 
 pub struct Waste {
@@ -95,6 +108,14 @@ impl Pile for Waste {
 
     fn push(&mut self, card: Card) {
         self.cards.insert(0, card);
+    }
+
+    fn draw(&mut self) -> Option<Card> {
+        if self.cards.len() == 0 {
+            return None;
+        } else {
+            return Some(self.cards.remove(0));
+        }
     }
 }
 
@@ -139,6 +160,14 @@ impl Pile for Foundation {
         self.top_value = Some(*card.value());
         self.cards.insert(0, card);
     }
+
+    fn draw(&mut self) -> Option<Card> {
+        if self.cards.len() == 0 {
+            return None;
+        } else {
+            return Some(self.cards.remove(0));
+        }
+    }
 }
 
 pub struct Tableau {
@@ -179,5 +208,13 @@ impl Pile for Tableau {
 
     fn push(&mut self, card: Card) {
         self.cards.insert(0, card);
+    }
+
+    fn draw(&mut self) -> Option<Card> {
+        if self.cards.len() == 0 {
+            return None;
+        } else {
+            return Some(self.cards.remove(0));
+        }
     }
 }
