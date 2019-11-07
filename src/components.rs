@@ -214,7 +214,11 @@ impl Pile for Tableau {
         if self.cards.len() == 0 {
             return None;
         } else {
-            return Some(self.cards.remove(0));
+            let c = self.cards.remove(0);
+            if !self.empty() {
+                self.cards.get_mut(0).unwrap().face_up = true;
+            }
+            return Some(c);
         }
     }
 }
