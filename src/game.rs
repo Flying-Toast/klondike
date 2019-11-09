@@ -1,12 +1,13 @@
 use std::collections::HashMap;
 use crate::card::*;
 use crate::components::*;
+use crate::commands::*;
 
 pub struct Game {
-    stock: Stock,
-    waste: Waste,
-    foundations: HashMap<Suit, Foundation>,
-    tableaus: Vec<Tableau>,
+    pub stock: Stock,
+    pub waste: Waste,
+    pub foundations: HashMap<Suit, Foundation>,
+    pub tableaus: Vec<Tableau>,
 }
 
 impl Game {
@@ -77,21 +78,6 @@ impl Game {
         println!();
     }
 
-    fn piles(&mut self) -> Vec<&mut dyn Pile> {
-        let mut v: Vec<&mut dyn Pile> = Vec::new();
-
-        v.push(&mut self.stock);
-        v.push(&mut self.waste);
-        for i in self.tableaus.iter_mut() {
-            v.push(i);
-        }
-        for i in self.foundations.values_mut() {
-            v.push(i);
-        }
-
-        v
-    }
-
     pub fn play(&mut self) {
         use std::io::stdin;
 
@@ -100,6 +86,9 @@ impl Game {
 
             let mut line = String::new();
             stdin().read_line(&mut line).unwrap();
+            let command = line.trim();
+            let result = execute_command(command, self);
+            println!("{:?}", result);
         }
     }
 }

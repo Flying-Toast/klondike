@@ -106,7 +106,8 @@ impl Pile for Waste {
         true
     }
 
-    fn push(&mut self, card: Card) {
+    fn push(&mut self, mut card: Card) {
+        card.face_up = true;
         self.cards.insert(0, card);
     }
 
