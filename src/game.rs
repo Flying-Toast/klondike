@@ -49,7 +49,7 @@ impl Game {
         }
     }
 
-    pub fn render(&self) {
+    fn render(&self) {
         let stock_rend = Self::display_top_or_empty(&self.stock);
         print!("{} {}      ", stock_rend, Self::display_top_or_empty(&self.waste));
         for suit in Suit::all().iter() {
@@ -75,6 +75,21 @@ impl Game {
             println!();
         }
         println!();
+    }
+
+    fn piles(&mut self) -> Vec<&mut dyn Pile> {
+        let mut v: Vec<&mut dyn Pile> = Vec::new();
+
+        v.push(&mut self.stock);
+        v.push(&mut self.waste);
+        for i in self.tableaus.iter_mut() {
+            v.push(i);
+        }
+        for i in self.foundations.values_mut() {
+            v.push(i);
+        }
+
+        v
     }
 
     pub fn play(&mut self) {
