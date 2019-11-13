@@ -187,7 +187,7 @@ impl Tableau {
     }
 
     pub fn top_card(&self) -> &Card {
-        &self.cards.get(self.cards.len() - 1).unwrap()
+        &self.cards.get(0).unwrap()
     }
 }
 
