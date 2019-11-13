@@ -88,6 +88,8 @@ impl Game {
                 self.render();
             }
 
+            print!("command> ");
+            stdout().flush().unwrap();
             let mut line = String::new();
             stdin().read_line(&mut line).unwrap();
             let command = line.trim();
