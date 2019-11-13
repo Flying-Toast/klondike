@@ -79,16 +79,27 @@ impl Game {
     }
 
     pub fn play(&mut self) {
-        use std::io::stdin;
+        use std::io::{stdin, stdout, Write};
+
+        let mut valid = true;
 
         loop {
-            self.render();
+            if valid {
+                self.render();
+            }
 
             let mut line = String::new();
             stdin().read_line(&mut line).unwrap();
             let command = line.trim();
-            let result = execute_command(command, self);
-            println!("{:?}", result);
+            if let Err(result) = execute_command(command, self) {
+                valid = false;
+                print!("\x1B[1;31m");
+                println!("{}", result);
+                print!("\x1B[0m");
+                stdout().flush().unwrap();
+            } else {
+                valid = true;
+            }
         }
     }
 }
