@@ -7,8 +7,9 @@ pub fn execute_command(command: &str, game: &mut Game) -> Result<(), String> {
     match command {
         "d" => cmd_draw(game),
         "m" => cmd_move(game),
+        "h" => cmd_help(),
 
-        _ => Err(String::from("Invalid command."))
+        _ => Err(String::from("Invalid command. Type 'h' for help."))
     }
 }
 
@@ -135,4 +136,20 @@ fn cmd_move(game: &mut Game) -> Result<(), String> {
     }
 
     Ok(())
+}
+
+fn cmd_help() -> Result<(), String> {
+    println!("Commands:");
+    println!("\td - Draw a card from the stock to the waste.");
+    println!("\tm - Move the specified card to the specified location.");
+    println!("\t\tTo specify a card/location:");
+    println!("\t\t\ts - stock");
+    println!("\t\t\tw - waste");
+    println!("\t\t\tfs - spades foundation");
+    println!("\t\t\tfh - hearts foundation");
+    println!("\t\t\tfd - diamonds foundation");
+    println!("\t\t\tfc - clubs foundation");
+    println!("\t\t\tt[0-6] - tableau pile x");
+
+    Err(String::new())
 }
