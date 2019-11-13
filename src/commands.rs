@@ -1,6 +1,7 @@
 use std::io::{stdin, stdout, Write};
 use crate::game::*;
 use crate::components::*;
+use crate::card::*;
 
 pub fn execute_command(command: &str, game: &mut Game) -> Result<(), String> {
     match command {
@@ -18,6 +19,34 @@ fn get_pile_mut<'a>(pile_ident: &str, game: &'a mut Game) -> Option<&'a mut dyn 
         _ => {}
     }
 
+    if pile_ident.len() == 2 {
+        match pile_ident.as_bytes()[0] as char {
+            'f' => {
+                match pile_ident.as_bytes()[1] as char {
+                    'h' => return Some(game.foundations.get_mut(&Suit::Hearts).unwrap()),
+                    's' => return Some(game.foundations.get_mut(&Suit::Spades).unwrap()),
+                    'd' => return Some(game.foundations.get_mut(&Suit::Diamonds).unwrap()),
+                    'c' => return Some(game.foundations.get_mut(&Suit::Clubs).unwrap()),
+
+                    _ => return None
+                }
+            },
+            't' => {
+                if let Ok(num) = (pile_ident.as_bytes()[1] as char).to_string().parse::<usize>() {
+                    if num < 7 {
+                        return Some(game.tableaus.get_mut(num).unwrap());
+                    } else {
+                        return None;
+                    }
+                } else {
+                    return None;
+                }
+            },
+
+            _ => {}
+        }
+    }
+
     None
 }
 
@@ -27,6 +56,34 @@ fn get_pile<'a>(pile_ident: &str, game: &'a Game) -> Option<&'a dyn Pile> {
         "s" => return Some(&game.stock),
         "w" => return Some(&game.waste),
         _ => {}
+    }
+
+    if pile_ident.len() == 2 {
+        match pile_ident.as_bytes()[0] as char {
+            'f' => {
+                match pile_ident.as_bytes()[1] as char {
+                    'h' => return Some(game.foundations.get(&Suit::Hearts).unwrap()),
+                    's' => return Some(game.foundations.get(&Suit::Spades).unwrap()),
+                    'd' => return Some(game.foundations.get(&Suit::Diamonds).unwrap()),
+                    'c' => return Some(game.foundations.get(&Suit::Clubs).unwrap()),
+
+                    _ => return None
+                }
+            },
+            't' => {
+                if let Ok(num) = (pile_ident.as_bytes()[1] as char).to_string().parse::<usize>() {
+                    if num < 7 {
+                        return Some(game.tableaus.get(num).unwrap());
+                    } else {
+                        return None;
+                    }
+                } else {
+                    return None;
+                }
+            },
+
+            _ => {}
+        }
     }
 
     None
