@@ -11,8 +11,24 @@ pub fn execute_command(command: &str, game: &mut Game) -> Result<(), String> {
     }
 }
 
-fn get_pile<'a>(pile_ident: &str, game: &'a mut Game) -> Option<&'a mut dyn Pile> {
-    //TODO
+fn get_pile_mut<'a>(pile_ident: &str, game: &'a mut Game) -> Option<&'a mut dyn Pile> {
+    match pile_ident {
+        "s" => return Some(&mut game.stock),
+        "w" => return Some(&mut game.waste),
+        _ => {}
+    }
+
+    None
+}
+
+//TODO: How to do this without entirely rewriting get_pile_mut?
+fn get_pile<'a>(pile_ident: &str, game: &'a Game) -> Option<&'a dyn Pile> {
+    match pile_ident {
+        "s" => return Some(&game.stock),
+        "w" => return Some(&game.waste),
+        _ => {}
+    }
+
     None
 }
 
@@ -27,8 +43,8 @@ fn cmd_draw(game: &mut Game) -> Result<(), String> {
 }
 
 fn cmd_move(game: &mut Game) -> Result<(), String> {
-    let mut from_pile;
-    let mut to_pile;
+    let from_pile;
+    let to_pile;
 
     let mut from = String::new();
     print!("\tFrom: ");
@@ -55,7 +71,8 @@ fn cmd_move(game: &mut Game) -> Result<(), String> {
         return Err(String::from("From pile is empty."));
     }
     if to_pile.can_push(from_pile.top().unwrap()) {
-        to_pile.push(from_pile.draw().unwrap());
+        let card = get_pile_mut(from.trim(), game).unwrap().draw().unwrap();
+        get_pile_mut(to.trim(), game).unwrap().push(card);
     } else {
         return Err(String::from("Illegal move."));
     }
